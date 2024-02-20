@@ -37,14 +37,10 @@ partial class MainForm
         palletNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
         palletBindingSource = new BindingSource(components);
         DataGridViewBoxOnPallet = new DataGridView();
-        boxIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-        barcodeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-        descriptionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-        palletIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-        mainBoxIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-        palletDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-        mainBoxDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
         boxesBindingSource = new BindingSource(components);
+        label1 = new Label();
+        TextBoxesToTake = new TextBox();
+        listBoxMessages = new ListBox();
         ((System.ComponentModel.ISupportInitialize)DataGridViewPallet).BeginInit();
         ((System.ComponentModel.ISupportInitialize)palletBindingSource).BeginInit();
         ((System.ComponentModel.ISupportInitialize)DataGridViewBoxOnPallet).BeginInit();
@@ -53,17 +49,18 @@ partial class MainForm
         // 
         // ButtonTakeBox
         // 
-        ButtonTakeBox.Location = new Point(253, 317);
+        ButtonTakeBox.Location = new Point(178, 124);
         ButtonTakeBox.Name = "ButtonTakeBox";
-        ButtonTakeBox.Size = new Size(117, 57);
+        ButtonTakeBox.Size = new Size(150, 57);
         ButtonTakeBox.TabIndex = 1;
         ButtonTakeBox.Text = "Take Box(es)";
         ButtonTakeBox.UseVisualStyleBackColor = true;
+        ButtonTakeBox.Click += ButtonTakeBox_Click;
         // 
         // LabelPalette
         // 
         LabelPalette.AutoSize = true;
-        LabelPalette.Location = new Point(36, 36);
+        LabelPalette.Location = new Point(42, 196);
         LabelPalette.Name = "LabelPalette";
         LabelPalette.Size = new Size(85, 17);
         LabelPalette.TabIndex = 3;
@@ -72,11 +69,11 @@ partial class MainForm
         // LabelBarcode
         // 
         LabelBarcode.AutoSize = true;
-        LabelBarcode.Location = new Point(36, 153);
+        LabelBarcode.Location = new Point(42, 313);
         LabelBarcode.Name = "LabelBarcode";
-        LabelBarcode.Size = new Size(88, 17);
+        LabelBarcode.Size = new Size(98, 17);
         LabelBarcode.TabIndex = 4;
-        LabelBarcode.Text = "Select Box(es)";
+        LabelBarcode.Text = "Available Boxes";
         // 
         // DataGridViewPallet
         // 
@@ -87,11 +84,14 @@ partial class MainForm
         DataGridViewPallet.ColumnHeadersVisible = false;
         DataGridViewPallet.Columns.AddRange(new DataGridViewColumn[] { palletNameDataGridViewTextBoxColumn });
         DataGridViewPallet.DataSource = palletBindingSource;
-        DataGridViewPallet.Location = new Point(172, 36);
+        DataGridViewPallet.Location = new Point(178, 196);
         DataGridViewPallet.MultiSelect = false;
         DataGridViewPallet.Name = "DataGridViewPallet";
         DataGridViewPallet.ReadOnly = true;
         DataGridViewPallet.RowHeadersVisible = false;
+        DataGridViewPallet.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+        DataGridViewPallet.RowTemplate.ReadOnly = true;
+        DataGridViewPallet.RowTemplate.Resizable = DataGridViewTriState.False;
         DataGridViewPallet.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         DataGridViewPallet.Size = new Size(240, 97);
         DataGridViewPallet.TabIndex = 5;
@@ -115,77 +115,58 @@ partial class MainForm
         // 
         DataGridViewBoxOnPallet.AllowUserToAddRows = false;
         DataGridViewBoxOnPallet.AllowUserToDeleteRows = false;
-        DataGridViewBoxOnPallet.AutoGenerateColumns = false;
         DataGridViewBoxOnPallet.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-        DataGridViewBoxOnPallet.Columns.AddRange(new DataGridViewColumn[] { boxIdDataGridViewTextBoxColumn, barcodeDataGridViewTextBoxColumn, descriptionDataGridViewTextBoxColumn, palletIdDataGridViewTextBoxColumn, mainBoxIdDataGridViewTextBoxColumn, palletDataGridViewTextBoxColumn, mainBoxDataGridViewTextBoxColumn });
-        DataGridViewBoxOnPallet.DataSource = boxesBindingSource;
-        DataGridViewBoxOnPallet.Location = new Point(172, 139);
+        DataGridViewBoxOnPallet.Location = new Point(178, 299);
         DataGridViewBoxOnPallet.Name = "DataGridViewBoxOnPallet";
         DataGridViewBoxOnPallet.ReadOnly = true;
         DataGridViewBoxOnPallet.RowHeadersVisible = false;
-        DataGridViewBoxOnPallet.Size = new Size(603, 150);
+        DataGridViewBoxOnPallet.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+        DataGridViewBoxOnPallet.RowTemplate.ReadOnly = true;
+        DataGridViewBoxOnPallet.RowTemplate.Resizable = DataGridViewTriState.False;
+        DataGridViewBoxOnPallet.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+        DataGridViewBoxOnPallet.Size = new Size(240, 150);
         DataGridViewBoxOnPallet.TabIndex = 6;
-        // 
-        // boxIdDataGridViewTextBoxColumn
-        // 
-        boxIdDataGridViewTextBoxColumn.DataPropertyName = "BoxId";
-        boxIdDataGridViewTextBoxColumn.HeaderText = "BoxId";
-        boxIdDataGridViewTextBoxColumn.Name = "boxIdDataGridViewTextBoxColumn";
-        boxIdDataGridViewTextBoxColumn.ReadOnly = true;
-        boxIdDataGridViewTextBoxColumn.Visible = false;
-        // 
-        // barcodeDataGridViewTextBoxColumn
-        // 
-        barcodeDataGridViewTextBoxColumn.DataPropertyName = "Barcode";
-        barcodeDataGridViewTextBoxColumn.HeaderText = "Barcode";
-        barcodeDataGridViewTextBoxColumn.Name = "barcodeDataGridViewTextBoxColumn";
-        barcodeDataGridViewTextBoxColumn.ReadOnly = true;
-        // 
-        // descriptionDataGridViewTextBoxColumn
-        // 
-        descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
-        descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
-        descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
-        descriptionDataGridViewTextBoxColumn.ReadOnly = true;
-        // 
-        // palletIdDataGridViewTextBoxColumn
-        // 
-        palletIdDataGridViewTextBoxColumn.DataPropertyName = "PalletId";
-        palletIdDataGridViewTextBoxColumn.HeaderText = "PalletId";
-        palletIdDataGridViewTextBoxColumn.Name = "palletIdDataGridViewTextBoxColumn";
-        palletIdDataGridViewTextBoxColumn.ReadOnly = true;
-        // 
-        // mainBoxIdDataGridViewTextBoxColumn
-        // 
-        mainBoxIdDataGridViewTextBoxColumn.DataPropertyName = "MainBoxId";
-        mainBoxIdDataGridViewTextBoxColumn.HeaderText = "MainBoxId";
-        mainBoxIdDataGridViewTextBoxColumn.Name = "mainBoxIdDataGridViewTextBoxColumn";
-        mainBoxIdDataGridViewTextBoxColumn.ReadOnly = true;
-        // 
-        // palletDataGridViewTextBoxColumn
-        // 
-        palletDataGridViewTextBoxColumn.DataPropertyName = "Pallet";
-        palletDataGridViewTextBoxColumn.HeaderText = "Pallet";
-        palletDataGridViewTextBoxColumn.Name = "palletDataGridViewTextBoxColumn";
-        palletDataGridViewTextBoxColumn.ReadOnly = true;
-        // 
-        // mainBoxDataGridViewTextBoxColumn
-        // 
-        mainBoxDataGridViewTextBoxColumn.DataPropertyName = "MainBox";
-        mainBoxDataGridViewTextBoxColumn.HeaderText = "MainBox";
-        mainBoxDataGridViewTextBoxColumn.Name = "mainBoxDataGridViewTextBoxColumn";
-        mainBoxDataGridViewTextBoxColumn.ReadOnly = true;
         // 
         // boxesBindingSource
         // 
         boxesBindingSource.DataMember = "Boxes";
         boxesBindingSource.DataSource = palletBindingSource;
         // 
+        // label1
+        // 
+        label1.Location = new Point(42, 42);
+        label1.Name = "label1";
+        label1.Size = new Size(100, 51);
+        label1.TabIndex = 8;
+        label1.Text = "Enter barcodes to take boxes";
+        // 
+        // TextBoxesToTake
+        // 
+        TextBoxesToTake.AcceptsReturn = true;
+        TextBoxesToTake.Location = new Point(178, 39);
+        TextBoxesToTake.Multiline = true;
+        TextBoxesToTake.Name = "TextBoxesToTake";
+        TextBoxesToTake.Size = new Size(150, 79);
+        TextBoxesToTake.TabIndex = 9;
+        TextBoxesToTake.Text = "abc10\r\nabc15";
+        // 
+        // listBoxMessages
+        // 
+        listBoxMessages.FormattingEnabled = true;
+        listBoxMessages.ItemHeight = 17;
+        listBoxMessages.Location = new Point(468, 24);
+        listBoxMessages.Name = "listBoxMessages";
+        listBoxMessages.Size = new Size(372, 157);
+        listBoxMessages.TabIndex = 10;
+        // 
         // MainForm
         // 
         AutoScaleDimensions = new SizeF(7F, 17F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(1185, 487);
+        ClientSize = new Size(872, 487);
+        Controls.Add(listBoxMessages);
+        Controls.Add(TextBoxesToTake);
+        Controls.Add(label1);
         Controls.Add(DataGridViewBoxOnPallet);
         Controls.Add(DataGridViewPallet);
         Controls.Add(LabelBarcode);
@@ -210,11 +191,7 @@ partial class MainForm
     private DataGridViewTextBoxColumn palletNameDataGridViewTextBoxColumn;
     private DataGridView DataGridViewBoxOnPallet;
     private BindingSource boxesBindingSource;
-    private DataGridViewTextBoxColumn boxIdDataGridViewTextBoxColumn;
-    private DataGridViewTextBoxColumn barcodeDataGridViewTextBoxColumn;
-    private DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
-    private DataGridViewTextBoxColumn palletIdDataGridViewTextBoxColumn;
-    private DataGridViewTextBoxColumn mainBoxIdDataGridViewTextBoxColumn;
-    private DataGridViewTextBoxColumn palletDataGridViewTextBoxColumn;
-    private DataGridViewTextBoxColumn mainBoxDataGridViewTextBoxColumn;
+    private Label label1;
+    private TextBox TextBoxesToTake;
+    private ListBox listBoxMessages;
 }

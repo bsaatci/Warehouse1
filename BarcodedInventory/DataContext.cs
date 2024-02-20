@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace BarcodedInventory
 {
     public class DataContext : DbContext
     {
-        public DbSet<Pallet> Pallets { get; set; }
+        public DbSet<Pallet> Pallets { get; set;  }
         public DbSet<Box> Boxes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

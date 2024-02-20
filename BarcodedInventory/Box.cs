@@ -1,16 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
-using System.Data.Entity.Core.Objects.DataClasses;
-using System.Security.Cryptography.Xml;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics;
-
-namespace BarcodedInventory
+﻿namespace BarcodedInventory
 {
     public class Box 
     {
@@ -40,21 +28,16 @@ namespace BarcodedInventory
             }
 
             var otherBoxesWithin = context.Boxes.Where(x => x.MainBoxId == BoxId).ToList();
-            foreach (var otherBox in otherBoxesWithin)
+            foreach (var otherBox in otherBoxesWithin.Where(otherBox => context.Boxes.Any(x => x.BoxId == otherBox.BoxId)))
             {
-                if (context.Boxes.Any(x => x.BoxId == otherBox.BoxId))
-                {
-                    context.Remove(otherBox);
-                    context.SaveChanges();
-                }
-            }
-
-            if (context.Boxes.Any(x => x.BoxId == this.BoxId))
-            {
-                context.Remove(this);
+                context.Remove(otherBox);
                 context.SaveChanges();
             }
-                
+
+            if (!context.Boxes.Any(x => x.BoxId == this.BoxId)) return;
+            context.Remove(this);
+            context.SaveChanges();
+
         }
 
     }

@@ -115,6 +115,8 @@ partial class MainForm
         // 
         DataGridViewBoxOnPallet.AllowUserToAddRows = false;
         DataGridViewBoxOnPallet.AllowUserToDeleteRows = false;
+        DataGridViewBoxOnPallet.AllowUserToResizeColumns = false;
+        DataGridViewBoxOnPallet.AllowUserToResizeRows = false;
         DataGridViewBoxOnPallet.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
         DataGridViewBoxOnPallet.Location = new Point(178, 299);
         DataGridViewBoxOnPallet.Name = "DataGridViewBoxOnPallet";
@@ -148,7 +150,7 @@ partial class MainForm
         TextBoxesToTake.Name = "TextBoxesToTake";
         TextBoxesToTake.Size = new Size(150, 79);
         TextBoxesToTake.TabIndex = 9;
-        TextBoxesToTake.Text = "abc10\r\nabc15";
+        TextBoxesToTake.Text = "abc20";
         // 
         // listBoxMessages
         // 

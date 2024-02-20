@@ -27,6 +27,7 @@ public partial class MainForm : Form
 
 
         this.palletBindingSource.DataSource = dbContext.Pallets.Local.ToBindingList();
+        PopulateBoxes();
     }
 
     protected override void OnClosing(CancelEventArgs e)
@@ -39,13 +40,18 @@ public partial class MainForm : Form
 
     private void DataGridViewPallet_SelectionChanged(object sender, EventArgs e)
     {
+        PopulateBoxes();
+    }
+
+    private void PopulateBoxes()
+    {
         if (this.dbContext != null)
         {
-            var category = (Pallet)this.DataGridViewPallet.CurrentRow.DataBoundItem;
+            var pallet = (Pallet)this.DataGridViewPallet.CurrentRow.DataBoundItem;
 
-            if (category != null)
+            if (pallet != null)
             {
-                dbContext.Entry(category).Collection(e => e.Boxes).Load();
+                DataGridViewBoxOnPallet.DataSource = pallet.Boxes.Select(x=>new {x.Barcode, x.Description}).ToList();
             }
         }
     }
@@ -55,7 +61,7 @@ public partial class MainForm : Form
         var listOfBoxes = new List<Box>();
         foreach (var code in TextBoxesToTake.Text.Split(new []{Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries))
         {
-            var box = dbContext.Boxes.FirstOrDefault(x => x.Barcode == code && !x.Deleted);
+            var box = dbContext.Boxes.FirstOrDefault(x => x.Barcode == code);
             if(box == null)
                 listBoxMessages.Items.Add($"{code} cannot be found!");
             else
@@ -67,15 +73,11 @@ public partial class MainForm : Form
         foreach (var realBox in listOfBoxes)
         {
             listBoxMessages.Items.Add($"{realBox.Description} taken.");
-            realBox.Dispose();
+            realBox.Dispose(dbContext);
         }
+        
+        PopulateBoxes();
 
-        var category = (Pallet)this.DataGridViewPallet.CurrentRow.DataBoundItem;
-
-        if (category != null)
-        {
-            dbContext.Entry(category).Collection(e => e.Boxes).Load();
-        }
 
 
     }

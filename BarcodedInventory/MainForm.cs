@@ -5,81 +5,117 @@ namespace BarcodedInventory;
 
 public partial class MainForm : Form
 {
-    private DataContext? dbContext;
+    private DataContext? _dbContext;
     private List<string> messages = new List<string>();
     public MainForm()
     {
         InitializeComponent();
     }
+    #region EventHandlers
     protected override void OnLoad(EventArgs e)
     {
         base.OnLoad(e);
-        listBoxMessages.Items.Clear();
+        
 
-        this.dbContext = new DataContext();
+        this._dbContext = new DataContext();
 
-        // Uncomment the line below to start fresh to keep changes in database.
-        this.dbContext.Database.EnsureDeleted();
-        this.dbContext.Database.EnsureCreated();
+        ResetDatabase();
 
-        this.dbContext.Pallets.Load();
-        dbContext.Boxes.Load();
-
-
-        this.palletBindingSource.DataSource = dbContext.Pallets.Local.ToBindingList();
-        PopulateBoxes();
+        ResetForm();
     }
 
     protected override void OnClosing(CancelEventArgs e)
     {
         base.OnClosing(e);
 
-        this.dbContext?.Dispose();
-        this.dbContext = null;
+        this._dbContext?.Dispose();
+        this._dbContext = null;
     }
 
     private void DataGridViewPallet_SelectionChanged(object sender, EventArgs e)
     {
-        PopulateBoxes();
+        PopulateBoxes(_dbContext);
     }
+    
 
-    private void PopulateBoxes()
+    private void ButtonResetDatabase_Click(object sender, EventArgs e)
     {
-        if (this.dbContext != null)
+        ResetForm();
+    }
+    #endregion
+
+    #region Private Methods
+
+    private void PopulateBoxes(DataContext? dbContext)
+    {
+        if (dbContext != null)
         {
             var pallet = (Pallet)this.DataGridViewPallet.CurrentRow.DataBoundItem;
 
             if (pallet != null)
             {
-                DataGridViewBoxOnPallet.DataSource = pallet.Boxes.Select(x=>new {x.Barcode, x.Description}).ToList();
+                DataGridViewBoxOnPallet.DataSource = pallet.Boxes.Select(x => new { x.Barcode, x.Description }).ToList();
             }
         }
+    }
+    private void ResetDatabase()
+    {
+        this._dbContext.Database.EnsureDeleted();
+        this._dbContext.Database.EnsureCreated();
+    }
+    private void ResetForm()
+    {
+        listBoxMessages.Items.Clear();
+        ResetDatabase();
+        _dbContext.Pallets.Load();
+        _dbContext.Boxes.Load();
+
+
+        this.palletBindingSource.DataSource = _dbContext.Pallets.Local.ToBindingList();
+        PopulateBoxes(_dbContext);
     }
 
     private void ButtonTakeBox_Click(object sender, EventArgs e)
     {
+        var listOfBoxes = GetListOfBoxes(_dbContext, TextBoxesToTake.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries));
+
+        DisposeBoxes(_dbContext, listOfBoxes);
+
+        PopulateBoxes(_dbContext);
+    }
+    #endregion
+
+    #region Public Methods
+    public List<Box> GetListOfBoxes(DataContext? dbContext, string[] inputList)
+    {
         var listOfBoxes = new List<Box>();
-        foreach (var code in TextBoxesToTake.Text.Split(new []{Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries))
+        if (dbContext != null)
         {
-            var box = dbContext.Boxes.FirstOrDefault(x => x.Barcode == code);
-            if(box == null)
-                listBoxMessages.Items.Add($"{code} cannot be found!");
-            else
+            foreach (var code in inputList)
             {
-                listOfBoxes.Add(box);
+                var box = dbContext.Boxes.FirstOrDefault(x => x.Barcode == code);
+                if (box == null)
+                    listBoxMessages.Items.Add($"{code} cannot be found!");
+                else
+                {
+                    listOfBoxes.Add(box);
+                }
             }
         }
 
-        foreach (var realBox in listOfBoxes)
-        {
-            listBoxMessages.Items.Add($"{realBox.Description} taken.");
-            realBox.Dispose(dbContext);
-        }
-        
-        PopulateBoxes();
-
-
-
+        return listOfBoxes;
     }
-    
+    public void DisposeBoxes(DataContext? dbContext, List<Box> listOfBoxes)
+    {
+        if (dbContext != null)
+        {
+            foreach (var realBox in listOfBoxes)
+            {
+                listBoxMessages.Items.Add($"{realBox.Description} is taken.");
+                realBox.Dispose(dbContext);
+            }
+        }
+    }
+    #endregion
+
 }

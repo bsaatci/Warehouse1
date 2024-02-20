@@ -41,6 +41,7 @@ partial class MainForm
         label1 = new Label();
         TextBoxesToTake = new TextBox();
         listBoxMessages = new ListBox();
+        ButtonResetDatabase = new Button();
         ((System.ComponentModel.ISupportInitialize)DataGridViewPallet).BeginInit();
         ((System.ComponentModel.ISupportInitialize)palletBindingSource).BeginInit();
         ((System.ComponentModel.ISupportInitialize)DataGridViewBoxOnPallet).BeginInit();
@@ -51,7 +52,7 @@ partial class MainForm
         // 
         ButtonTakeBox.Location = new Point(178, 124);
         ButtonTakeBox.Name = "ButtonTakeBox";
-        ButtonTakeBox.Size = new Size(150, 57);
+        ButtonTakeBox.Size = new Size(206, 57);
         ButtonTakeBox.TabIndex = 1;
         ButtonTakeBox.Text = "Take Box(es)";
         ButtonTakeBox.UseVisualStyleBackColor = true;
@@ -62,18 +63,17 @@ partial class MainForm
         LabelPalette.AutoSize = true;
         LabelPalette.Location = new Point(42, 196);
         LabelPalette.Name = "LabelPalette";
-        LabelPalette.Size = new Size(85, 17);
+        LabelPalette.Size = new Size(77, 17);
         LabelPalette.TabIndex = 3;
-        LabelPalette.Text = "Select Palette";
+        LabelPalette.Text = "Select Pallet";
         // 
         // LabelBarcode
         // 
-        LabelBarcode.AutoSize = true;
         LabelBarcode.Location = new Point(42, 313);
         LabelBarcode.Name = "LabelBarcode";
-        LabelBarcode.Size = new Size(98, 17);
+        LabelBarcode.Size = new Size(98, 42);
         LabelBarcode.TabIndex = 4;
-        LabelBarcode.Text = "Available Boxes";
+        LabelBarcode.Text = "Available Boxes On Pallet";
         // 
         // DataGridViewPallet
         // 
@@ -93,7 +93,7 @@ partial class MainForm
         DataGridViewPallet.RowTemplate.ReadOnly = true;
         DataGridViewPallet.RowTemplate.Resizable = DataGridViewTriState.False;
         DataGridViewPallet.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-        DataGridViewPallet.Size = new Size(240, 97);
+        DataGridViewPallet.Size = new Size(206, 97);
         DataGridViewPallet.TabIndex = 5;
         DataGridViewPallet.SelectionChanged += DataGridViewPallet_SelectionChanged;
         // 
@@ -126,7 +126,7 @@ partial class MainForm
         DataGridViewBoxOnPallet.RowTemplate.ReadOnly = true;
         DataGridViewBoxOnPallet.RowTemplate.Resizable = DataGridViewTriState.False;
         DataGridViewBoxOnPallet.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-        DataGridViewBoxOnPallet.Size = new Size(240, 150);
+        DataGridViewBoxOnPallet.Size = new Size(206, 148);
         DataGridViewBoxOnPallet.TabIndex = 6;
         // 
         // boxesBindingSource
@@ -148,24 +148,35 @@ partial class MainForm
         TextBoxesToTake.Location = new Point(178, 39);
         TextBoxesToTake.Multiline = true;
         TextBoxesToTake.Name = "TextBoxesToTake";
-        TextBoxesToTake.Size = new Size(150, 79);
+        TextBoxesToTake.Size = new Size(206, 79);
         TextBoxesToTake.TabIndex = 9;
-        TextBoxesToTake.Text = "abc20";
+        TextBoxesToTake.Text = "abc10\r\nabc12";
         // 
         // listBoxMessages
         // 
         listBoxMessages.FormattingEnabled = true;
         listBoxMessages.ItemHeight = 17;
-        listBoxMessages.Location = new Point(468, 24);
+        listBoxMessages.Location = new Point(397, 39);
         listBoxMessages.Name = "listBoxMessages";
         listBoxMessages.Size = new Size(372, 157);
         listBoxMessages.TabIndex = 10;
+        // 
+        // ButtonResetDatabase
+        // 
+        ButtonResetDatabase.Location = new Point(604, 390);
+        ButtonResetDatabase.Name = "ButtonResetDatabase";
+        ButtonResetDatabase.Size = new Size(165, 57);
+        ButtonResetDatabase.TabIndex = 11;
+        ButtonResetDatabase.Text = "Reset Database";
+        ButtonResetDatabase.UseVisualStyleBackColor = true;
+        ButtonResetDatabase.Click += ButtonResetDatabase_Click;
         // 
         // MainForm
         // 
         AutoScaleDimensions = new SizeF(7F, 17F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(872, 487);
+        Controls.Add(ButtonResetDatabase);
         Controls.Add(listBoxMessages);
         Controls.Add(TextBoxesToTake);
         Controls.Add(label1);
@@ -185,7 +196,7 @@ partial class MainForm
     }
 
     #endregion
-    private Button ButtonTakeBox;
+    public Button ButtonTakeBox;
     private Label LabelPalette;
     private Label LabelBarcode;
     private DataGridView DataGridViewPallet;
@@ -195,5 +206,6 @@ partial class MainForm
     private BindingSource boxesBindingSource;
     private Label label1;
     private TextBox TextBoxesToTake;
-    private ListBox listBoxMessages;
+    public ListBox listBoxMessages;
+    private Button ButtonResetDatabase;
 }
